@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "poetry-template"
+name = "myrtle"
 version = "0.1.0"
 description = ""
 authors = ["Jonas Stettner <mail@jstet.net>"]
 readme = "README.md"
-packages = [{include = "poetry_template"}]
+packages = [{include = "myrtle"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
