@@ -6,8 +6,14 @@ authors = ["Jonas Stettner <mail@jstet.net>"]
 readme = "README.md"
 packages = [{include = "myrtle"}]
 
+[tool.poetry.scripts]
+start = "myrtle.main:start"
+
 [tool.poetry.dependencies]
 python = "^3.11"
+dinosay = "^1.2.0"
+fastapi = "^0.100.0"
+uvicorn = {extras = ["standard"], version = "^0.22.0"}
 
 
 [tool.poetry.group.dev.dependencies]
