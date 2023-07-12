@@ -17,6 +17,9 @@ uvicorn = {extras = ["standard"], version = "^0.22.0"}
 modal = "^0.50.2614"
 gpt4all = "^1.0.3"
 huggingface-hub = "^0.16.4"
+rich = "^13.4.2"
+requests = "^2.31.0"
+pandas = "^2.0.3"
 
 
 [tool.poetry.group.dev.dependencies]
