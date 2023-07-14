@@ -6,6 +6,7 @@ from myrtle.generate import generate
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from myrtle.helpers import download_model
 from fastapi.responses import PlainTextResponse
+import language_tool_python
 
 app = FastAPI()
 
@@ -21,6 +22,11 @@ async def startup_event():
     download_model(model_name)
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(model_name)
+    eos_tokens = [
+        int(tokenizer.convert_tokens_to_ids(".")),
+        int(tokenizer.convert_tokens_to_ids("!")),
+        int(tokenizer.convert_tokens_to_ids("?")),
+    ]
     context["generator"] = pipeline(
         "text-generation",
         model=model,
@@ -28,19 +34,20 @@ async def startup_event():
         max_length=60,
         no_repeat_ngram_size=3,
         repetition_penalty=1.2,
-        eos_token_id=int(tokenizer.convert_tokens_to_ids(".")),
+        eos_token_id=eos_tokens,
         pad_token_id=tokenizer.eos_token_id,
         top_p=0.9,
-        temperature=0.5,
+        temperature=0.6,
         top_k=50,
     )
     context["df"] = pd.read_csv("data/processed/processed_quotes.csv")
+    context["gramm_checker"] = language_tool_python.LanguageTool("en-US")
     print("Model loaded")
 
 
 @app.get("/", response_class=PlainTextResponse)
 async def root():
-    return brachiosaurus(generate(context["generator"], context["df"]))
+    return brachiosaurus(generate(context["generator"], context["df"], context["gramm_checker"]))
 
 
 def start():

@@ -42,3 +42,8 @@ def download_file(url: dict, filetype: str = "bz2") -> Tuple[str, str]:
                     console.log(f"ID: {url['id']} Progress: {progress:.2f}%, Speed: {speed:.2f} B/s")
                     update_time += 10
     return filepath, url["id"]
+
+
+def is_grammatically_correct(text, tool, lim=0):
+    matches = tool.check(text)
+    return len(matches) <= lim

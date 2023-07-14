@@ -2,6 +2,7 @@ import pandas as pd
 from autocorrect import Speller
 import contractions
 from myrtle.console import console
+from myrtle.helpers import is_grammatically_correct
 from langdetect import detect
 import re
 import language_tool_python
@@ -75,15 +76,8 @@ df["quote"] = df["quote"].apply(spell)
 
 tool = language_tool_python.LanguageTool("en-US")
 
-
-def is_grammatically_correct(text):
-    max_mistakes = 1
-    matches = tool.check(text)
-    return len(matches) <= max_mistakes
-
-
 console.log("remove a quote if it is not grammatically correct")
-df = df[[is_grammatically_correct(x) for x in df["quote"]]]
+df = df[[is_grammatically_correct(x, tool, 1) for x in df["quote"]]]
 console.log(f"{len(df)} quotes left")
 
 df = df["quote"]
