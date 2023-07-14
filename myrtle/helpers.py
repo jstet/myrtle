@@ -1,22 +1,13 @@
-import urllib.request
 from myrtle.console import console
 from typing import Tuple
 import time
 import requests
+from huggingface_hub import snapshot_download
 import os
 
 
-def download_model():
-    path = "/.cache/gpt4all"
-    # Check whether the specified path exists or not
-    isExist = os.path.exists(path)
-    if not isExist:
-        os.makedirs(path)
-
-    urllib.request.urlretrieve(
-        "https://huggingface.co/TheBloke/orca_mini_3B-GGML/resolve/main/orca-mini-3b.ggmlv3.q4_0.bin",
-        f"{path}/model.bin",
-    )
+def download_model(model):
+    snapshot_download(model)
 
 
 def download_file(url: dict, filetype: str = "bz2") -> Tuple[str, str]:
@@ -33,7 +24,11 @@ def download_file(url: dict, filetype: str = "bz2") -> Tuple[str, str]:
     console.log(f"Starting download for {url['id']}")
     with requests.get(url["url"], stream=True) as raw:
         total_length = int(raw.headers.get("Content-Length"))
-        filepath = f"./data/{os.path.basename(url['id'])}.{filetype}"
+        directory = "./data"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        filepath = f"{directory}/{os.path.basename(url['id'])}.{filetype}"
+
         with open(filepath, "wb") as output:
             start_time = time.time()
             update_time = start_time + 10
