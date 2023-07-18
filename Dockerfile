@@ -1,6 +1,8 @@
-FROM huggingface/transformers-pytorch-cpu
-RUN apt update && \
-    apt install -y gcc musl-dev python3-dev gfortran g++ gcc libxslt-dev 
+FROM debian:bookworm-slim
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends python3-pip default-jdk curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 RUN mkdir /app
 COPY ./myrtle /app/myrtle/
 COPY pyproject.toml /app
@@ -8,12 +10,9 @@ COPY ./data/processed/processed_quotes.csv /app/data/processed/processed_quotes.
 COPY README.md /app
 WORKDIR /app
 ENV PYTHONPATH=${PYTHONPATH}:${PWD} 
-RUN pip3 install poetry
-RUN poetry config virtualenvs.create false
-RUN poetry install --only main
-
-# Run dagster gRPC server on port 4000
+RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN /root/.local/bin/poetry install --only main
 
 EXPOSE 8000
 
-CMD ["poetry", "run", "start"]
+CMD ["/root/.local/bin/poetry", "run", "start"]

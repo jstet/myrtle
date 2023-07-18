@@ -16,16 +16,14 @@ fastapi = "^0.100.0"
 uvicorn = {extras = ["standard"], version = "^0.22.0"}
 huggingface-hub = "^0.16.4"
 rich = "^13.4.2"
-requests = "^2.31.0"
 pandas = "^2.0.3"
 datasets = "^2.13.1"
-transformers = "^4.30.2"
-torch = "2.0.0"
 accelerate = "^0.20.3"
 python-dotenv = "^1.0.0"
-langdetect = "^1.0.9"
 language-tool-python = "^2.7.1"
 alt-profanity-check = "^1.2.2"
+torch = ">=2.0.0, !=2.0.1"
+transformers = "^4.31.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -48,6 +46,14 @@ modal = "^0.50.2632"
 python-levenshtein = "^0.21.1"
 contractions = "^0.1.73"
 autocorrect = "^2.6.1"
+langdetect = "^1.0.9"
+requests = "^2.31.0"
+
+
+[[tool.poetry.source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
 
 [build-system]
 requires = ["poetry-core"]
