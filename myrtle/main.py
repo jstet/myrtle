@@ -7,6 +7,9 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from myrtle.helpers import download_model
 from fastapi.responses import PlainTextResponse
 import language_tool_python
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.inmemory import InMemoryBackend
+from fastapi_cache.decorator import cache
 
 app = FastAPI()
 
@@ -19,6 +22,7 @@ context = {}
 @app.on_event("startup")
 async def startup_event():
     # Load your model here
+    FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
     download_model(model_name)
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(model_name)
@@ -46,6 +50,7 @@ async def startup_event():
 
 
 @app.get("/", response_class=PlainTextResponse)
+@cache(expire=10)
 async def root():
     return brachiosaurus(generate(context["generator"], context["df"], context["gramm_checker"]))
 
