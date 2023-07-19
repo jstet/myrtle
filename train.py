@@ -10,6 +10,7 @@ image = (
     .poetry_install_from_file("pyproject.toml")
     .apt_install(["git", "git-lfs"])
     .run_commands("git lfs install")
+    .run_commands("pip install torch==2.0.0")  # with gpu support
 )
 
 stub = Stub(name="myrtle_train", image=image)

@@ -20,8 +20,8 @@ python-dotenv = "^1.0.0"
 language-tool-python = "^2.7.1"
 alt-profanity-check = "^1.2.2"
 fastapi-cache2 = "^0.2.1"
-torch = "2.0.0"
 transformers = "^4.31.0"
+torch = {version = "^2.0.1+cpu", source = "pytorch"}
 
 
 [tool.poetry.group.dev.dependencies]
