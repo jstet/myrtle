@@ -4,6 +4,7 @@ from myrtle.dino import brachiosaurus
 import pandas as pd
 from myrtle.generate import generate
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from optimum.bettertransformer import BetterTransformer
 from myrtle.helpers import download_model
 from fastapi.responses import PlainTextResponse
 import language_tool_python
@@ -25,7 +26,8 @@ async def startup_event():
     FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
     download_model(model_name)
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name)
+    model_hf = AutoModelForCausalLM.from_pretrained(model_name)
+    model = BetterTransformer.transform(model_hf, keep_original_model=True)
     eos_tokens = [
         int(tokenizer.convert_tokens_to_ids(".")),
         int(tokenizer.convert_tokens_to_ids("!")),
@@ -50,7 +52,7 @@ async def startup_event():
 
 
 @app.get("/", response_class=PlainTextResponse)
-@cache(expire=10)
+@cache(expire=5)
 async def root():
     return brachiosaurus(generate(context["generator"], context["df"], context["gramm_checker"]))
 

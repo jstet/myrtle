@@ -22,6 +22,7 @@ alt-profanity-check = "^1.2.2"
 fastapi-cache2 = "^0.2.1"
 transformers = "^4.31.0"
 torch = {version = "^2.0.1+cpu", source = "pytorch"}
+optimum = "^1.9.1"
 
 
 [tool.poetry.group.dev.dependencies]
