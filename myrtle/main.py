@@ -11,12 +11,19 @@ import language_tool_python
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
+from distutils.util import strtobool
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
 model_name = "jstet/myrtle"
 
 context = {}
+
+PRODUCTION = strtobool(os.environ.get("PRODUCTION"))
 
 
 # Load the model during startup
@@ -59,4 +66,7 @@ async def root():
 
 def start():
     """Launched with `poetry run start` at root level"""
-    uvicorn.run("myrtle.main:app", host="0.0.0.0", port=8000, reload=True)
+    if PRODUCTION:
+        uvicorn.run("myrtle.main:app", host="0.0.0.0", port=8000, reload=False)
+    else:
+        uvicorn.run("myrtle.main:app", host="0.0.0.0", port=8000, reload=True)
