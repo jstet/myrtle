@@ -12,6 +12,5 @@ WORKDIR /app
 ENV PYTHONPATH=${PYTHONPATH}:${PWD} 
 RUN curl -sSL https://install.python-poetry.org | python3 -
 RUN /root/.local/bin/poetry install --only main
-RUN export PRODUCTION=True
 
 CMD ["/root/.local/bin/poetry", "run", "start"]
