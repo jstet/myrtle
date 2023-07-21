@@ -5,7 +5,7 @@ from myrtle.helpers import is_grammatically_correct
 # making sure gpt2 does not return anything antisemitic
 # i also dont want it to generate religious texts
 # multiple quotes he model was trained on are from harry potter or hunger games
-dont_include = ["jew", "jews", "god", "jesus", "christian", "harry", "Katniss", "q when"]
+dont_include = ["jew", "jews", "god", "jesus", "christian", "harry", "katniss", "q when"]
 
 
 def get_random_inpt(df):
