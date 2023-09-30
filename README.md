@@ -1,5 +1,5 @@
 # Myrtle: a wise brachiosaurus
-Just a fun project teach myself a bit to train and deploy LLMs. Myrtle is a GPT2 model finetuned on quotes by non male notable people. Find myrtle [here](https://github.com/jstet/myrtle). She only speaks every 5 seconds.
+Just a fun project teach myself a bit to train and deploy LLMs. Myrtle is a GPT2 model finetuned on quotes by non male notable people. Find myrtle here. She only speaks every 5 seconds. Find myrtle [here](https://myrtle.jstet.net/). She only speaks every 5 seconds.
 
 ```
 /----------------------------------------------------------------------------\
